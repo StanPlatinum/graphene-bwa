@@ -194,16 +194,16 @@ run-nonsgx:
 	./bwa index data/genome.fa
 	./bwa mem data/genome.fa data/ecoli.4k.fastq
 
-run-sgx:
+run-sgx: bwa.manifest.sgx
 	./bwa index data/genome.fa
-	SGX=1 ./pal_loader bwa.manifest.sgx mem data/genome.fa data/ecoli.4k.fastq
+	SGX=1 ./pal_loader bwa mem data/genome.fa data/ecoli.4k.fastq
 
 .PHONY: clean-bwa clean-sgx clean-data clean-all
 
 clean-sgx:
 	$(RM) *.manifest *.manifest.sgx *.token *.sig pal_loader
 
-clean-all: clean-bwa clean-sgx
-
 clean-data:
 	$(RM) data/genome.fa.*
+
+clean-all: clean-bwa clean-sgx clean-data
