@@ -28,7 +28,7 @@ ifeq ($(SGX),1)
 all: $(APP_NAME).token
 endif
 
-include /home/ya0guang/graphene/Scripts/Makefile.configs
+include $(GRAPHENEDIR)/Scripts/Makefile.configs
 
 # $(APP_NAME) dependencies (generated from ldd). For SGX, the manifest needs to list all the libraries
 # loaded during execution, so that the signer can include the file hashes.
