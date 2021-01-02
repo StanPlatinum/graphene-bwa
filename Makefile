@@ -90,11 +90,13 @@ $(APP_NAME):
 pal_loader:
 	ln -s $(GRAPHENEDIR)/Runtime/pal_loader $@
 
+# NOTE: run will not use SGX!!!!
 .PHONY: run
 run: all
 	# SGX=1 ./pal_loader ./$(APP_NAME)
 	./$(APP_NAME) index data/genome.fa
-	SGX=1 ./pal_loader $(APP_NAME) mem data/genome.fa data/ecoli.4k.fastq
+	./pal_loader $(APP_NAME) mem data/genome.fa data/ecoli.4k.fastq
+	# SGX=1 ./pal_loader bwa mem data/genome.fa data/ecoli.4k.fastq
 
 .PHONY: clean
 clean:
