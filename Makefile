@@ -13,7 +13,7 @@ APP_NAME = bwa
 
 
 # Relative path to Graphene root and key for enclave signing
-GRAPHENEDIR ?= /home/ya0guang/graphene
+GRAPHENEDIR ?= /usr/local/src/graphene-atstub
 SGX_SIGNER_KEY ?= $(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/enclave-key.pem
 
 ifeq ($(DEBUG),1)
