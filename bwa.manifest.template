@@ -2,14 +2,21 @@
 #
 # This manifest was prepared and tested on Ubuntu 16.04.
 
-loader.argv0_override = "$(APP_NAME)"
+libos.entrypoint = "file:$(APP_DIR)/bwa"
+loader.argv0_override = "bwa"
 
 # LibOS layer library of Graphene. There is currently only one implementation,
 # so it is always set to libsysdb.so. 
 loader.preload = "file:$(GRAPHENEDIR)/Runtime/libsysdb.so"
 
+sgx.nonpie_binary = 1
+
+# Graphene log level
+loader.log_level = "all"
+#loader.log_level = "$(GRAPHENE_LOG_LEVEL)"
+
 # Show/hide debug log of Graphene ('inline' or 'none' respectively).
-loader.debug_type = "$(GRAPHENEDEBUG)"
+#loader.debug_type = "$(GRAPHENEDEBUG)"
 
 # Read application arguments directly from the command line. Don't use this on production!
 loader.insecure__use_cmdline_argv = 1
@@ -37,9 +44,9 @@ fs.mount.lib3.uri = "file:/usr/$(ARCH_LIBDIR)"
 # fs.mount.etc.path = "/etc"
 # fs.mount.etc.uri = "file:/etc"
 
-fs.mount."$(APP_NAME)".type = "chroot"
-fs.mount."$(APP_NAME)".path = "$(APP_DIR)"
-fs.mount."$(APP_NAME)".uri = "file:$(APP_DIR)"
+fs.mount.bwa.type = "chroot"
+fs.mount.bwa.path = "$(APP_DIR)"
+fs.mount.bwa.uri = "file:$(APP_DIR)"
 
 # Set enclave size (somewhat arbitrarily) to 256MB. Recall that SGX v1 requires
 # to specify enclave size at enclave creation time.
@@ -52,10 +59,13 @@ sgx.thread_num = 10
 
 # Specify protected data files
 
-sgx.allowed_files.data= "file:./data"
+sgx.allowed_files.data= "file:data"
 
 # Specify all libraries used by $(APP_NAME) and its dependencies (including all libs
 # which can be loaded at runtime via dlopen).
+
+sgx.trusted_files.curl = "file:$(APP_DIR)/bwa"
+
 sgx.trusted_files.ld = "file:$(GRAPHENEDIR)/Runtime/ld-linux-x86-64.so.2"
 sgx.trusted_files.libc = "file:$(GRAPHENEDIR)/Runtime/libc.so.6"
 sgx.trusted_files.libm = "file:$(GRAPHENEDIR)/Runtime/libm.so.6"

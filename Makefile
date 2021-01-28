@@ -8,18 +8,24 @@
 # Use `make clean` to remove Graphene-generated files.
 
 THIS_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
-APP_DIR ?= .
-APP_NAME = bwa
+APP_DIR ?= /u/weijliu/graphene-bwa
+APP_NAME ?= bwa
 
 
 # Relative path to Graphene root and key for enclave signing
-GRAPHENEDIR ?= /usr/local/src/graphene-atstub
+GRAPHENEDIR ?= /usr/local/src/graphene
 SGX_SIGNER_KEY ?= $(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/enclave-key.pem
 
+#ifeq ($(DEBUG),1)
+#GRAPHENEDEBUG = inline
+#else
+#GRAPHENEDEBUG = none
+#endif
+
 ifeq ($(DEBUG),1)
-GRAPHENEDEBUG = inline
+GRAPHENE_LOG_LEVEL = debug
 else
-GRAPHENEDEBUG = none
+GRAPHENE_LOG_LEVEL = error
 endif
 
 .PHONY: all
@@ -69,7 +75,6 @@ $(APP_NAME).manifest: $(APP_NAME).manifest.template $(APP_NAME)-trusted-libs
 # Generate SGX-specific manifest, enclave signature, and token for enclave initialization
 $(APP_NAME).manifest.sgx: $(APP_NAME) $(APP_NAME).manifest
 	$(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/pal-sgx-sign \
-		-exec $(APP_NAME) \
 		-libpal $(GRAPHENEDIR)/Runtime/libpal-Linux-SGX.so \
 		-key $(SGX_SIGNER_KEY) \
 		-manifest $(APP_NAME).manifest -output $@
