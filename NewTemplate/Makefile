@@ -9,13 +9,11 @@
 
 THIS_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 APP_NAME ?= hello
-
 APP_DIR ?= $(CURDIR)
 
 
-
 # Relative path to Graphene root and key for enclave signing
-GRAPHENEDIR ?= /home/ya0guang/graphene
+GRAPHENEDIR ?= /usr/local/src/graphene-atstub
 SGX_SIGNER_KEY ?= $(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/enclave-key.pem
 
 ifeq ($(DEBUG),1)
@@ -59,7 +57,7 @@ $(APP_NAME)-trusted-libs: $(APP_NAME)-deps
 
 $(APP_NAME).manifest: $(APP_NAME).manifest.template $(APP_NAME)-trusted-libs
 	@sed -e 's|$$(GRAPHENEDIR)|'"$(GRAPHENEDIR)"'|g' \
-		-e 's|$$(GRAPHENEDEBUG)|'"$(GRAPHENEDEBUG)"'|g' \
+		-e 's|$$(GRAPHENE_LOG_LEVEL)|'"$(GRAPHENE_LOG_LEVEL)"'|g' \
 		-e 's|$$(APP_DIR)|'"$(APP_DIR)"'|g' \
 		-e 's|$$(APP_NAME)|'"$(APP_NAME)"'|g' \
 		-e 's|$$(APP_TRUSTED_LIBS)|'"`cat $(APP_NAME)-trusted-libs`"'|g' \

@@ -12,7 +12,7 @@ loader.preload = "file:$(GRAPHENEDIR)/Runtime/libsysdb.so"
 sgx.nonpie_binary = 1
 
 # Graphene log level
-loader.log_level = "all"
+loader.log_level = "debug"
 #loader.log_level = "$(GRAPHENE_LOG_LEVEL)"
 
 # Show/hide debug log of Graphene ('inline' or 'none' respectively).

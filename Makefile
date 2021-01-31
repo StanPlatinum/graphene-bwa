@@ -107,6 +107,7 @@ run: all
 clean:
 	make -C bwa_src clean 
 	$(RM) *.manifest *.manifest.sgx *.token *.sig $(APP_NAME) pal_loader OUTPUT
+	$(RM) *-trusted-libs *-deps
 
 .PHONY: distclean
 distclean: clean
