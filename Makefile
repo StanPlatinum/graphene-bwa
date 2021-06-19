@@ -100,7 +100,8 @@ pal_loader:
 run: all
 	# SGX=1 ./pal_loader ./$(APP_NAME)
 	./$(APP_NAME) index data/genome.fa
-	./pal_loader $(APP_NAME) mem data/genome.fa data/ecoli.4k.fastq
+	./pal_loader $(APP_NAME) mem data/genome.fa data/SRR062634_1.filt.fastq data/SRR062634_2.filt.fastq
+	# ./pal_loader $(APP_NAME) mem data/genome.fa data/SRR062634.filt.fastq
 	# SGX=1 ./pal_loader bwa mem data/genome.fa data/ecoli.4k.fastq
 
 .PHONY: clean

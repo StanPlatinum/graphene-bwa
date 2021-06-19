@@ -38,7 +38,7 @@ fs.mount.lib2.uri = "file:$(ARCH_LIBDIR)"
 
 fs.mount.lib3.type = "chroot"
 fs.mount.lib3.path = "/usr$(ARCH_LIBDIR)"
-fs.mount.lib3.uri = "file:/usr/$(ARCH_LIBDIR)"
+fs.mount.lib3.uri = "file:/usr$(ARCH_LIBDIR)"
 
 # fs.mount.etc.type = "chroot"
 # fs.mount.etc.path = "/etc"
