@@ -61,6 +61,8 @@ sgx.thread_num = 10
 
 sgx.allowed_files.data= "file:data"
 
+# sgx.protected_files.data= "file:data"
+
 # Specify all libraries used by $(APP_NAME) and its dependencies (including all libs
 # which can be loaded at runtime via dlopen).
 
