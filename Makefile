@@ -42,7 +42,7 @@ include $(GRAPHENEDIR)/Scripts/Makefile.configs
 # We need to replace Glibc dependencies with Graphene-specific Glibc. The Glibc binaries are
 # already listed in the manifest template, so we can skip them from the ldd results.
 # GLIBC_DEPS = linux-vdso.so.1 /lib64/ld-linux-x86-64.so.2 libc.so.6 libpthread.so.0
-GLIBC_DEPS = linux-vdso.so.1 
+GLIBC_DEPS = linux-vdso.so.1 libz.so.1
 
 # List all the $(APP_NAME) dependencies, besides Glibc libraries
 .INTERMEDIATE: $(APP_NAME)-deps
@@ -95,14 +95,20 @@ $(APP_NAME):
 pal_loader:
 	ln -s $(GRAPHENEDIR)/Runtime/pal_loader $@
 
-# NOTE: run will not use SGX!!!!
+# NOTE: make run will not use SGX!!!! you must use make SGX=1 run
 .PHONY: run
-run: all
+run-sample: all
 	# SGX=1 ./pal_loader ./$(APP_NAME)
-	./$(APP_NAME) index data/genome.fa
-	./pal_loader $(APP_NAME) mem data/genome.fa data/SRR062634_1.filt.fastq data/SRR062634_2.filt.fastq
-	# ./pal_loader $(APP_NAME) mem data/genome.fa data/SRR062634.filt.fastq
+	# ./$(APP_NAME) index data/genome.fa
+	# SGX=1 ./pal_loader $(APP_NAME) mem data/genome.fa data/SRR062634_1.filt.fastq data/SRR062634_2.filt.fastq
+	SGX=1 ./pal_loader $(APP_NAME) mem data/genome.fa data/SRR062634.filt.fastq
 	# SGX=1 ./pal_loader bwa mem data/genome.fa data/ecoli.4k.fastq
+
+run: all
+	# ./$(APP_NAME) index data/hg38_reference.fa
+	# SGX=1 ./pal_loader $(APP_NAME) mem /mnt/graphene-dida-bwa/hg38_reference.fa /mnt/graphene-dida-bwa/SRR062634.filt.fastq
+	SGX=1 ./pal_loader $(APP_NAME) mem data/hg38_reference.fa data/SRR062634.filt.fastq		
+	# SGX=1 ./pal_loader $(APP_NAME) mem data/hg38_reference.fa data/SRR062634.filt.fastq > data/aln_paired.sam
 
 .PHONY: clean
 clean:
