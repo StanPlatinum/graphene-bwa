@@ -12,7 +12,9 @@ APP_NAME ?= bwa
 APP_DIR = /u/weijliu/graphene-bwa
 
 # Relative path to Graphene root and key for enclave signing
-GRAPHENEDIR ?= /usr/local/src/graphene
+# GRAPHENEDIR ?= /usr/local/src/graphene
+GRAPHENEDIR ?= /usr/local/src/test/graphene
+
 SGX_SIGNER_KEY ?= $(GRAPHENEDIR)/Pal/src/host/Linux-SGX/signer/enclave-key.pem
 
 ifeq ($(DEBUG),1)
@@ -60,14 +62,23 @@ $(APP_NAME):
 	make -C bwa_src
 	cp bwa_src/bwa .
 
+.PHONY: run-big
+run-big: all
+	# ./bwa index data/genome.fa
+	$(GRAPHENE) $(APP_NAME) mem data/hg38_reference.fa data/SRR062634.filt.fastq
+
+
 .PHONY: run-sample
 run-sample: all
 	# ./bwa index data/genome.fa
 	$(GRAPHENE) $(APP_NAME) mem data/genome.fa data/SRR062634.filt.fastq
 
+i = 2
+
 .PHONY: run
 run: all
-	$(GRAPHENE) $(APP_NAME) mem data/hg38_reference.fa data/SRR062634.filt.fastq		
+	$(RM) /mnt/graphene-dida-bwa/pr/out/aln-$i.sam
+	$(GRAPHENE) $(APP_NAME) mem -k25 -o /mnt/graphene-dida-bwa/pr/out/aln-$i.sam /mnt/graphene-dida-bwa/work/ref_80/mref-$i.fa /mnt/graphene-dida-bwa/pr/mreads-$i.fa	
 
 .PHONY: clean
 clean:
