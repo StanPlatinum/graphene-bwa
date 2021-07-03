@@ -75,6 +75,8 @@ sgx.allowed_files.work = "file:/mnt/graphene-dida-bwa/work/"
 # sgx.allowed_files.protected = "file:pr/"
 
 sgx.allowed_files.ref_80 = "file:/mnt/graphene-dida-bwa/work/ref_80/"
+sgx.allowed_files.ref_40 = "file:/mnt/graphene-dida-bwa/work/ref_40/"
+
 sgx.allowed_files.unprotected = "file:/mnt/graphene-dida-bwa/up/"
 sgx.allowed_files.SRR062634 = "file:/mnt/graphene-dida-bwa/SRR062634.filt.fastq"
 sgx.protected_files_key = "ffeeddccbbaa99887766554433221100"

@@ -73,12 +73,14 @@ run-sample: all
 	# ./bwa index data/genome.fa
 	$(GRAPHENE) $(APP_NAME) mem data/genome.fa data/SRR062634.filt.fastq
 
-i = 2
+i = 1
+PARTITION = 40
 
 .PHONY: run
 run: all
+	mkdir /mnt/graphene-dida-bwa/pr/out/
 	$(RM) /mnt/graphene-dida-bwa/pr/out/aln-$i.sam
-	$(GRAPHENE) $(APP_NAME) mem -k25 -o /mnt/graphene-dida-bwa/pr/out/aln-$i.sam /mnt/graphene-dida-bwa/work/ref_80/mref-$i.fa /mnt/graphene-dida-bwa/pr/mreads-$i.fa	
+	$(GRAPHENE) $(APP_NAME) mem -k25 -o /mnt/graphene-dida-bwa/pr/out/aln-$i.sam /mnt/graphene-dida-bwa/work/ref_$(PARTITION)/mref-$i.fa /mnt/graphene-dida-bwa/pr/mreads-$i.fa	
 
 .PHONY: clean
 clean:
