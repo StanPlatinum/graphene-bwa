@@ -50,7 +50,7 @@ fs.mount.mnt.uri = "file:/mnt"
 # Set enclave size (somewhat arbitrarily) to 256MB. Recall that SGX v1 requires
 # to specify enclave size at enclave creation time.
 # sgx.enclave_size = "32G"
-sgx.enclave_size = "512M"
+sgx.enclave_size = "1G"
 
 # Set maximum number of in-enclave threads (somewhat arbitrarily) to 4. Recall
 # that SGX v1 requires to specify the maximum number of simultaneous threads at
